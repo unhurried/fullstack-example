@@ -1,0 +1,19 @@
+service: serverless-nestjs
+ 
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ap-northeast-1
+ 
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+functions:
+  index:
+    handler: dist/src/serverless.handler
+    events:
+      - http:
+          cors: true
+          path: '{proxy+}'
+          method: any

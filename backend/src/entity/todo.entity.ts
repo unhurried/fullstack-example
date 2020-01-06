@@ -1,5 +1,5 @@
 import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
-import { Category } from 'src/resource/todo';
+import { Category } from '../resource/todo';
 
 @Entity()
 export class TodoEntity {

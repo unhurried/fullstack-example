@@ -6,6 +6,7 @@ A sample REST API project implemented with Nest.js
 
 * Generating Open API document (@nestjs/swagger)
 * Validation (class-validator)
+* Integration with Serverless Framework
 
 ## Install dependencies
 
@@ -24,6 +25,9 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# with serverless offline plugin
+$ npm run start:sls
 ```
 
 ## generating documents
@@ -46,7 +50,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## (How to create the project from the scratch)
+## (How to create this project from the scratch)
 
 ```shell
 # Install Nest.js CLI
@@ -56,13 +60,22 @@ npm i -g @nestjs/cli
 nest new {project name} --package-manager npm
 
 # Install swagger module
-npm i -s @nestjs/swagger swagger-ui-express 
+npm i @nestjs/swagger swagger-ui-express 
 
 # Install validation module
-npm i -s class-validator class-transformer
+npm i class-validator class-transformer
 
 # Install database module
-npm i --save @nestjs/typeorm typeorm
-npm i --save-dev mongodb-memory-server
+npm i @nestjs/typeorm typeorm
+npm i -D mongodb-memory-server
 
+# Install config module
+npm i @nestjs/config
+
+# Install Serverless Framework
+npm i -g serverless
+
+# Install Serverless dependencies
+npm i aws-lambda aws-serverless-express
+npm i -D serverless-offline serverless-dotenv-plugin
 ```
