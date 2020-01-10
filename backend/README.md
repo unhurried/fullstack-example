@@ -1,6 +1,6 @@
 # fullstack-example-backend
 
-A sample REST API project implemented with Nest.js
+A simple Nest.js projest that serves REST APIs for TODO web app.
 
 ## Converd Features
 
@@ -8,16 +8,18 @@ A sample REST API project implemented with Nest.js
 * Validation (class-validator)
 * Integration with Serverless Framework
 
-## Install dependencies
+## How to start development
 
-```bash
+### Install dependencies
+
+```shell
 $ npm install
 ```
 
-## Running the app
+### Run the application
 
-```bash
-# development
+```shell
+# development mode
 $ npm run start
 
 # watch mode
@@ -30,16 +32,16 @@ $ npm run start:prod
 $ npm run start:sls
 ```
 
-## generating documents
+## Generate documents
 
-```bash
+```shell
 # generate Open API doc
 $ npm run build:open-api
 ```
 
-## Running tests
+## Run tests
 
-```bash
+```shell
 # unit tests
 $ npm run test
 
@@ -50,7 +52,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## (How to create this project from the scratch)
+## How to create this project from scratch
 
 ```shell
 # Install Nest.js CLI
@@ -59,23 +61,23 @@ npm i -g @nestjs/cli
 # Create new project
 nest new {project name} --package-manager npm
 
-# Install swagger module
+# Install swagger library
 npm i @nestjs/swagger swagger-ui-express 
 
-# Install validation module
+# Install validation library
 npm i class-validator class-transformer
 
-# Install database module
+# Install database library
 npm i @nestjs/typeorm typeorm
 npm i -D mongodb-memory-server
 
-# Install config module
+# Install config library
 npm i @nestjs/config
 
 # Install Serverless Framework
 npm i -g serverless
 
-# Install Serverless dependencies
+# Install Serverless plugins
 npm i aws-lambda aws-serverless-express
 npm i -D serverless-offline serverless-dotenv-plugin
 ```
