@@ -14,8 +14,8 @@ export class TodoController {
 
   @ApiOperation({ summary: 'Get a list of todo items' })
   @ApiOkResponse({ description: 'Success', type: TodoList })
-  @ApiQuery({ name: 'Limit', required: false, schema: LimitParamSchema })
-  @ApiQuery({ name: 'Offset', required: false, schema: OffsetParamSchema })
+  @ApiQuery({ name: 'Limit', required: false, description: 'Maximum number of items to get', schema: LimitParamSchema, })
+  @ApiQuery({ name: 'Offset', required: false, description: 'Starting index of items to get', schema: OffsetParamSchema })
   @Get()
   async getList(@Query() listQueryParam: ListQueryParam): Promise<TodoList> {
     const items = await this.service.findAll();

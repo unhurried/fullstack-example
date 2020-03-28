@@ -27,7 +27,6 @@ export class ListQueryParam {
 }
 
 const LimitParamSchema: SchemaObject = {
-  description: 'Limit',
   default: 10,
   example: 10,
   minimum: 1,
@@ -36,7 +35,6 @@ const LimitParamSchema: SchemaObject = {
 }
 
 const OffsetParamSchema: SchemaObject = {
-  description: 'Offset',
   default: 0,
   example: 5,
   minimum: 0,
