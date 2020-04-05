@@ -12,27 +12,27 @@ export class TodoService {
     private readonly todoRepository: Repository<TodoEntity>,
   ) {}
 
-  async findAll(): Promise<Todo[]> {
-    const entities = await this.todoRepository.find();
+  async findAll(userId: string): Promise<Todo[]> {
+    const entities = await this.todoRepository.find({userId});
     return entities.map<Todo>(this.entityToDto);
   }
 
-  async create(dto: Todo): Promise<Todo> {
-    let entity = this.dtoToEntity(dto);
+  async create(userId: string, dto: Todo): Promise<Todo> {
+    let entity = this.dtoToEntity(userId, dto);
     entity.id = null;
     entity = await this.todoRepository.save(entity);
     return this.entityToDto(entity);
   }
 
-  async findById(id: string): Promise<Todo> {
-    const entity = await this.todoRepository.findOne(id);
+  async findById(userId: string, id: string): Promise<Todo> {
+    const entity = await this.todoRepository.findOne({ id, userId });
     return entity? this.entityToDto(entity) : null
   }
 
-  async update(dto: Todo): Promise<Todo> {
-    const entity = await this.todoRepository.findOne(dto.id);
-    if (entity) {
-      let entity = this.dtoToEntity(dto);
+  async update(userId: string, dto: Todo): Promise<Todo> {
+    const originalEntity = await this.todoRepository.findOne({ id: dto.id, userId });
+    if (originalEntity) {
+      let entity = this.dtoToEntity(userId, dto);
       entity = await this.todoRepository.save(entity);
       return this.entityToDto(entity);
     } else {
@@ -59,8 +59,9 @@ export class TodoService {
     };
   }
 
-  private dtoToEntity(dto: Todo): TodoEntity {
+  private dtoToEntity(userId: string, dto: Todo): TodoEntity {
     const entity: TodoEntity = {
+      userId,
       title: dto.title,
       category: dto.category,
       content: dto.content,
