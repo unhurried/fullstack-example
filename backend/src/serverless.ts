@@ -5,9 +5,9 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { createServer, proxy } from 'aws-serverless-express';
 import { AppModule } from './module';
- 
+
 let cachedServer: Server;
- 
+
 async function bootstrapServer(): Promise<Server> {
   const expressApp = express();
   const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
@@ -15,7 +15,7 @@ async function bootstrapServer(): Promise<Server> {
   await nestApp.init();
   return createServer(expressApp);
 }
- 
+
 export const handler = (event: APIGatewayProxyEvent, context: Context) => {
   if (!cachedServer) {
     bootstrapServer().then(server => {
