@@ -2,7 +2,7 @@ import { Body, Controller,  HttpCode, Post, UnauthorizedException } from '@nestj
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './resource/user';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { TokenReponse as TokenResponse } from './resource/token-response';
 import { JwtToken } from './resource/jwt-token';
 

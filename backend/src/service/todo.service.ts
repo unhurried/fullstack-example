@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { TodoEntity } from '../entity/todo.entity';
-import { Todo } from 'src/resource/todo';
+import { Todo } from '../resource/todo';
 
 @Injectable()
 export class TodoService {

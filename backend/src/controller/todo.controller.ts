@@ -1,15 +1,16 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, HttpException, HttpStatus, UseGuards, Req } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { Todo } from '../resource/todo';
 import { Error } from '../resource/error';
 import { TodoList } from '../resource/todo-list';
 import { ListQueryParam, LimitParamSchema, OffsetParamSchema } from '../param/list-qurey-param';
 import { ItemParam } from '../param/item-param';
 import { TodoService } from '../service/todo.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
-import { AuthenticatedRequest } from 'src/auth/resource/authenticated-request';
+import { JwtAuthGuard } from '../auth/jwt-auth-guard';
+import { AuthenticatedRequest } from '../auth/resource/authenticated-request';
 
 @ApiTags('Todo')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('todos')
 export class TodoController {
@@ -68,8 +69,9 @@ export class TodoController {
   @ApiNotFoundResponse({ description: 'Resource not found', type: Error })
   @Delete(':id')
   @HttpCode(204)
-  async delete(@Param() params: ItemParam): Promise<void> {
-    if (!await this.service.deleteById(params.id)) {
+  async delete(@Param() params: ItemParam, @Req() req: AuthenticatedRequest): Promise<void> {
+    const userId = req.user.userId;
+    if (!await this.service.delete(userId, params.id)) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
   }
