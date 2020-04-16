@@ -6,6 +6,7 @@ A simple Nest.js projest that serves REST APIs for TODO web app.
 
 * Generating Open API document (@nestjs/swagger)
 * Validation (class-validator)
+* API authentication using JWT based on user authentication
 * Integration with Serverless Framework
 
 ## How to start development

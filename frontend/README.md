@@ -6,6 +6,7 @@ A simple Vue.js project that serves user interface for TODO web app.
 
 * Class style vue component with TypeScript
 * Integration with Bootstrap 4 (bootstrap-vue)
+* User authentication using Vuex and Vue Router
 
 ## How to start development
 
