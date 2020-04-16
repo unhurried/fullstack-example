@@ -12,7 +12,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Form from '@/components/Form.vue';
 import TodoItem from '@/model/TodoItem';
-import { TodoApiService, Todo, TodoCategoryEnum } from '@/service/TodoApiService';
+import { Todo, TodoApi, TodoCategoryEnum } from '@/client-axios';
 
 @Component({
   name: 'Update',
@@ -21,24 +21,24 @@ import { TodoApiService, Todo, TodoCategoryEnum } from '@/service/TodoApiService
   },
 })
 export default class Update extends Vue {
-  private todoApiService = new TodoApiService();
   private todo: Todo = { title: '', category: TodoCategoryEnum.One };
 
   private created(): void {
     this.refresh();
   }
-  /* eslint class-methods-use-this: 0 */
-  private onSubmit(item: Todo) {
-    this.todoApiService.update(item.id as string, {
+  private async onSubmit(item: Todo) {
+    const todoApi: TodoApi = await this.$store.dispatch('auth/getApi');
+    todoApi.todoControllerUpdate(item.id as string, {
       title: item.title,
       category: item.category,
       content: item.content,
-    }).then((result) => {
+    }).then(() => {
       this.refresh();
     });
   }
-  private refresh(): void {
-    this.todoApiService.get(this.$route.params.userId).then((res) => {
+  private async refresh(): Promise<void> {
+    const todoApi: TodoApi = await this.$store.dispatch('auth/getApi');
+    todoApi.todoControllerGet(this.$route.params.userId).then((res) => {
       this.todo = res.data;
     });
   }

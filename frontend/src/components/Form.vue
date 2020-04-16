@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Todo } from '@/service/TodoApiService';
+import { Todo, TodoCategoryEnum } from '@/client-axios';
 
 @Component({
   name: 'Form',
@@ -51,6 +51,8 @@ import { Todo } from '@/service/TodoApiService';
 export default class Form extends Vue {
   @Prop() item!: Todo;
   private onSubmit(): void {
+    const t: Todo = { title: 'hoge', category: TodoCategoryEnum.One };
+    console.log(t);
     this.$emit('submit', this.item);
   }
 }

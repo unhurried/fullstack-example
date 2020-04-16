@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Form from '@/components/Form.vue';
-import { Todo, TodoApiService, TodoCategoryEnum } from '@/service/TodoApiService';
+import { Todo, TodoApi, TodoCategoryEnum } from '@/client-axios';
 
 @Component({
   name: 'Create',
@@ -20,18 +20,16 @@ import { Todo, TodoApiService, TodoCategoryEnum } from '@/service/TodoApiService
   },
 })
 export default class Create extends Vue {
-  private todoApiService = new TodoApiService();
   private todo: Todo = { title: '', category: TodoCategoryEnum.One };
 
-  /* eslint class-methods-use-this: 0 */
-  private onSubmit(item: Todo) {
-    this.todoApiService.post({
+  private async onSubmit(item: Todo) {
+    const todoApi: TodoApi = await this.$store.dispatch('auth/getApi');
+    const result = await todoApi.todoControllerPost({
       title: item.title,
       category: item.category,
       content: item.content,
-    }).then((result) => {
-      this.$router.push(`/update/${result.data.id}`);
     });
+    this.$router.push(`/update/${result.data.id}`);
   }
 }
 </script>

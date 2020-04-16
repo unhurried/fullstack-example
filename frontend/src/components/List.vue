@@ -17,13 +17,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Todo, TodoApiService } from '@/service/TodoApiService';
+import { Action, State } from 'vuex-class';
+import AuthModule from '@/store/modules/auth';
+import { Todo, TodoApi } from '@/client-axios';
 
 @Component({
   name: 'List',
 })
 export default class List extends Vue {
-  private todoApiService = new TodoApiService();
   private fields = [
     { key: 'category' },
     { key: 'title' },
@@ -32,13 +33,14 @@ export default class List extends Vue {
   private items: Todo[] = [];
 
   private async created() {
-    this.items = (await this.todoApiService.getList()).data.items;
+    const todoApi: TodoApi = await this.$store.dispatch('auth/getApi');
+    this.items = (await todoApi.todoControllerGetList()).data.items;
   }
-  /* eslint class-methods-use-this: 0 */
+
   private async deleteItem(id: string) {
-    /* eslint no-underscore-dangle: 0 */
-    await this.todoApiService._delete(id);
-    this.items = (await this.todoApiService.getList()).data.items;
+    const todoApi: TodoApi = await this.$store.dispatch('auth/getApi');
+    await todoApi.todoControllerDelete(id);
+    this.items = (await todoApi.todoControllerGetList()).data.items;
   }
 }
 </script>
