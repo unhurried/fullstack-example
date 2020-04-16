@@ -99,6 +99,149 @@ export interface TodoList {
      */
     total: number;
 }
+/**
+ * 
+ * @export
+ * @interface TokenReponse
+ */
+export interface TokenReponse {
+    /**
+     * Access Token
+     * @type {string}
+     * @memberof TokenReponse
+     */
+    accessToken: string;
+}
+/**
+ * 
+ * @export
+ * @interface User
+ */
+export interface User {
+    /**
+     * Username
+     * @type {string}
+     * @memberof User
+     */
+    username: string;
+    /**
+     * Password
+     * @type {string}
+     * @memberof User
+     */
+    password: string;
+}
+
+/**
+ * AuthApi - axios parameter creator
+ * @export
+ */
+export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get an access token
+         * @param {User} user 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerLogin(user: User, options: any = {}): RequestArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling authControllerLogin.');
+            }
+            const localVarPath = `/auth/login`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            const needsSerialization = (typeof user !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user !== undefined ? user : {}) : (user || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AuthApi - functional programming interface
+ * @export
+ */
+export const AuthApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get an access token
+         * @param {User} user 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerLogin(user: User, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenReponse> {
+            const localVarAxiosArgs = AuthApiAxiosParamCreator(configuration).authControllerLogin(user, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
+};
+
+/**
+ * AuthApi - factory interface
+ * @export
+ */
+export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+        /**
+         * 
+         * @summary Get an access token
+         * @param {User} user 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerLogin(user: User, options?: any) {
+            return AuthApiFp(configuration).authControllerLogin(user, options)(axios, basePath);
+        },
+    };
+};
+
+/**
+ * AuthApi - object-oriented interface
+ * @export
+ * @class AuthApi
+ * @extends {BaseAPI}
+ */
+export class AuthApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get an access token
+     * @param {User} user 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authControllerLogin(user: User, options?: any) {
+        return AuthApiFp(this.configuration).authControllerLogin(user, options)(this.axios, this.basePath);
+    }
+
+}
+
 
 /**
  * TodoApi - axios parameter creator
@@ -113,10 +256,10 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        _delete(id: string, options: any = {}): RequestArgs {
+        todoControllerDelete(id: string, options: any = {}): RequestArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling _delete.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling todoControllerDelete.');
             }
             const localVarPath = `/todos/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -128,6 +271,15 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
@@ -148,10 +300,10 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get(id: string, options: any = {}): RequestArgs {
+        todoControllerGet(id: string, options: any = {}): RequestArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling get.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling todoControllerGet.');
             }
             const localVarPath = `/todos/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -163,6 +315,15 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
@@ -179,12 +340,12 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary Get a list of todo items
-         * @param {number} [offset] 
-         * @param {number} [limit] 
+         * @param {number} [offset] Starting index of items to get
+         * @param {number} [limit] Maximum number of items to get
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getList(offset?: number, limit?: number, options: any = {}): RequestArgs {
+        todoControllerGetList(offset?: number, limit?: number, options: any = {}): RequestArgs {
             const localVarPath = `/todos`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -194,6 +355,15 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (offset !== undefined) {
                 localVarQueryParameter['Offset'] = offset;
@@ -222,10 +392,10 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        post(todo: Todo, options: any = {}): RequestArgs {
+        todoControllerPost(todo: Todo, options: any = {}): RequestArgs {
             // verify required parameter 'todo' is not null or undefined
             if (todo === null || todo === undefined) {
-                throw new RequiredError('todo','Required parameter todo was null or undefined when calling post.');
+                throw new RequiredError('todo','Required parameter todo was null or undefined when calling todoControllerPost.');
             }
             const localVarPath = `/todos`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
@@ -236,6 +406,15 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
@@ -261,14 +440,14 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update(id: string, todo: Todo, options: any = {}): RequestArgs {
+        todoControllerUpdate(id: string, todo: Todo, options: any = {}): RequestArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling update.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling todoControllerUpdate.');
             }
             // verify required parameter 'todo' is not null or undefined
             if (todo === null || todo === undefined) {
-                throw new RequiredError('todo','Required parameter todo was null or undefined when calling update.');
+                throw new RequiredError('todo','Required parameter todo was null or undefined when calling todoControllerUpdate.');
             }
             const localVarPath = `/todos/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -280,6 +459,15 @@ export const TodoApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
@@ -313,8 +501,8 @@ export const TodoApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        _delete(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration)._delete(id, options);
+        todoControllerDelete(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).todoControllerDelete(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -327,8 +515,8 @@ export const TodoApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Todo> {
-            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).get(id, options);
+        todoControllerGet(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Todo> {
+            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).todoControllerGet(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -337,13 +525,13 @@ export const TodoApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get a list of todo items
-         * @param {number} [offset] 
-         * @param {number} [limit] 
+         * @param {number} [offset] Starting index of items to get
+         * @param {number} [limit] Maximum number of items to get
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getList(offset?: number, limit?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TodoList> {
-            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).getList(offset, limit, options);
+        todoControllerGetList(offset?: number, limit?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TodoList> {
+            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).todoControllerGetList(offset, limit, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -356,8 +544,8 @@ export const TodoApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        post(todo: Todo, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Todo> {
-            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).post(todo, options);
+        todoControllerPost(todo: Todo, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Todo> {
+            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).todoControllerPost(todo, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -371,8 +559,8 @@ export const TodoApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update(id: string, todo: Todo, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Todo> {
-            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).update(id, todo, options);
+        todoControllerUpdate(id: string, todo: Todo, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Todo> {
+            const localVarAxiosArgs = TodoApiAxiosParamCreator(configuration).todoControllerUpdate(id, todo, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -394,8 +582,8 @@ export const TodoApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        _delete(id: string, options?: any) {
-            return TodoApiFp(configuration)._delete(id, options)(axios, basePath);
+        todoControllerDelete(id: string, options?: any) {
+            return TodoApiFp(configuration).todoControllerDelete(id, options)(axios, basePath);
         },
         /**
          * 
@@ -404,19 +592,19 @@ export const TodoApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get(id: string, options?: any) {
-            return TodoApiFp(configuration).get(id, options)(axios, basePath);
+        todoControllerGet(id: string, options?: any) {
+            return TodoApiFp(configuration).todoControllerGet(id, options)(axios, basePath);
         },
         /**
          * 
          * @summary Get a list of todo items
-         * @param {number} [offset] 
-         * @param {number} [limit] 
+         * @param {number} [offset] Starting index of items to get
+         * @param {number} [limit] Maximum number of items to get
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getList(offset?: number, limit?: number, options?: any) {
-            return TodoApiFp(configuration).getList(offset, limit, options)(axios, basePath);
+        todoControllerGetList(offset?: number, limit?: number, options?: any) {
+            return TodoApiFp(configuration).todoControllerGetList(offset, limit, options)(axios, basePath);
         },
         /**
          * 
@@ -425,8 +613,8 @@ export const TodoApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        post(todo: Todo, options?: any) {
-            return TodoApiFp(configuration).post(todo, options)(axios, basePath);
+        todoControllerPost(todo: Todo, options?: any) {
+            return TodoApiFp(configuration).todoControllerPost(todo, options)(axios, basePath);
         },
         /**
          * 
@@ -436,8 +624,8 @@ export const TodoApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update(id: string, todo: Todo, options?: any) {
-            return TodoApiFp(configuration).update(id, todo, options)(axios, basePath);
+        todoControllerUpdate(id: string, todo: Todo, options?: any) {
+            return TodoApiFp(configuration).todoControllerUpdate(id, todo, options)(axios, basePath);
         },
     };
 };
@@ -457,8 +645,8 @@ export class TodoApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TodoApi
      */
-    public _delete(id: string, options?: any) {
-        return TodoApiFp(this.configuration)._delete(id, options)(this.axios, this.basePath);
+    public todoControllerDelete(id: string, options?: any) {
+        return TodoApiFp(this.configuration).todoControllerDelete(id, options)(this.axios, this.basePath);
     }
 
     /**
@@ -469,21 +657,21 @@ export class TodoApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TodoApi
      */
-    public get(id: string, options?: any) {
-        return TodoApiFp(this.configuration).get(id, options)(this.axios, this.basePath);
+    public todoControllerGet(id: string, options?: any) {
+        return TodoApiFp(this.configuration).todoControllerGet(id, options)(this.axios, this.basePath);
     }
 
     /**
      * 
      * @summary Get a list of todo items
-     * @param {number} [offset] 
-     * @param {number} [limit] 
+     * @param {number} [offset] Starting index of items to get
+     * @param {number} [limit] Maximum number of items to get
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TodoApi
      */
-    public getList(offset?: number, limit?: number, options?: any) {
-        return TodoApiFp(this.configuration).getList(offset, limit, options)(this.axios, this.basePath);
+    public todoControllerGetList(offset?: number, limit?: number, options?: any) {
+        return TodoApiFp(this.configuration).todoControllerGetList(offset, limit, options)(this.axios, this.basePath);
     }
 
     /**
@@ -494,8 +682,8 @@ export class TodoApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TodoApi
      */
-    public post(todo: Todo, options?: any) {
-        return TodoApiFp(this.configuration).post(todo, options)(this.axios, this.basePath);
+    public todoControllerPost(todo: Todo, options?: any) {
+        return TodoApiFp(this.configuration).todoControllerPost(todo, options)(this.axios, this.basePath);
     }
 
     /**
@@ -507,8 +695,8 @@ export class TodoApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TodoApi
      */
-    public update(id: string, todo: Todo, options?: any) {
-        return TodoApiFp(this.configuration).update(id, todo, options)(this.axios, this.basePath);
+    public todoControllerUpdate(id: string, todo: Todo, options?: any) {
+        return TodoApiFp(this.configuration).todoControllerUpdate(id, todo, options)(this.axios, this.basePath);
     }
 
 }

@@ -3,13 +3,15 @@
     <!-- <nav class="navbar navbar-dark bg-dark"> -->
     <b-navbar type="dark" variant="dark" toggleable="lg">
       <!-- <a class="navbar-brand" href="#">ToDo Management System</a> -->
-      <b-navbar-brand to="/">ToDo Management System</b-navbar-brand>
+      <b-navbar-brand to="/" class="mr-auto">ToDo Management System</b-navbar-brand>
+
       <!-- <button class="navbar-toggler d-md-none" type="button"
         data-toggle="collapse" data-target="#menu"> -->
       <!-- b-navbar-toggle only covers a b-collapse element under the parent b-navbar -->
       <b-button class="navbar-toggler d-md-none" v-b-toggle.menu>
         <span class="navbar-toggler-icon"></span>
       </b-button>
+      <Account />
     </b-navbar>
 
     <!-- <div class="container-fluid" style="max-width:1024px; margin-left:0;"> -->
@@ -41,9 +43,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Account from '@/components/Account.vue';
 
 @Component({
   name: 'App',
+  components: { Account },
 })
 export default class App extends Vue {}
 </script>

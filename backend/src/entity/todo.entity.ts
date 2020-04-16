@@ -7,6 +7,9 @@ export class TodoEntity {
   id?: ObjectID;
 
   @Column()
+  userId: string;
+
+  @Column()
   title: string;
 
   @Column()

@@ -9,10 +9,11 @@ async function bootstrap() {
     .setTitle('Todo')
     .setDescription('Todo API specification')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
 
-  fs.writeFileSync("./dist/open-api.json", JSON.stringify(document));
+  fs.writeFileSync('./dist/open-api.json', JSON.stringify(document));
   await app.close();
   process.exit();
 }

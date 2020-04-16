@@ -11,7 +11,7 @@ export class DatabaseModule {
 
     return TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: url,
+      url,
       entities: [TodoEntity],
       keepConnectionAlive: true,
     })
