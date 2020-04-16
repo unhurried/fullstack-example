@@ -25,12 +25,12 @@ export class TodoService {
   }
 
   async findById(userId: string, id: string): Promise<Todo> {
-    const entity = await this.todoRepository.findOne({ id, userId });
+    const entity = await this.todoRepository.findOne({ where: { _id: new ObjectID(id), userId } });
     return entity? this.entityToDto(entity) : null
   }
 
   async update(userId: string, dto: Todo): Promise<Todo> {
-    const originalEntity = await this.todoRepository.findOne({ id: dto.id, userId });
+    const originalEntity = await this.todoRepository.findOne({ where: { _id: new ObjectID(dto.id), userId } });
     if (originalEntity) {
       let entity = this.dtoToEntity(userId, dto);
       entity = await this.todoRepository.save(entity);
@@ -40,8 +40,8 @@ export class TodoService {
     }
   }
 
-  async deleteById(id: string): Promise<boolean> {
-    const entity = await this.todoRepository.findOne(id);
+  async delete(userId: string, id: string): Promise<boolean> {
+    const entity = await this.todoRepository.findOne({ where: { _id: new ObjectID(id), userId } });
     if (entity) {
       this.todoRepository.remove(entity);
       return true;
