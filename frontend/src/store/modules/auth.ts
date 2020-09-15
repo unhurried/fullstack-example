@@ -9,7 +9,6 @@ const getters: GetterTree<AuthState, RootState> = {
   isLogin: (state) => state.accessToken !== '',
 };
 
-/* eslint no-param-reassign: 0 */
 const mutations: MutationTree<AuthState> = {
   update: (state: AuthState, data: AuthState) => {
     state.username = data.username;

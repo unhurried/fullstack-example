@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 import Login from '../views/Login.vue';
 import Index from '../views/Index.vue';
 import Create from '../views/Create.vue';
 import Update from '../views/Update.vue';
-import store from '@/store';
 
 Vue.use(VueRouter);
 

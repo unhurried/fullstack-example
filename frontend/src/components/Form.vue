@@ -52,7 +52,6 @@ export default class Form extends Vue {
   @Prop() item!: Todo;
   private onSubmit(): void {
     const t: Todo = { title: 'hoge', category: TodoCategoryEnum.One };
-    console.log(t);
     this.$emit('submit', this.item);
   }
 }
