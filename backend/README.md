@@ -1,8 +1,8 @@
 # fullstack-example-backend
 
-A simple Nest.js projest that serves REST APIs for TODO web app.
+A simple Nest.js project that serves REST APIs for TODO web app.
 
-## Converd Features
+## Covered Features
 
 * Generating Open API document (@nestjs/swagger)
 * Validation (class-validator)
