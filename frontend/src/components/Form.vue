@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver ref="observer" v-slot="{ invalid, passes }">
+  <ValidationObserver ref="observer" v-slot="{ passes }">
     <b-form novalidate @submit.prevent="passes(onSubmit)">
       <ValidationProvider name="title"
         rules="required|max:10" v-slot="{ errors, valid, validated }">
