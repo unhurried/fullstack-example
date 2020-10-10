@@ -6,7 +6,7 @@
 
     <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}</b-alert>
 
-    <ValidationObserver ref="observer" v-slot="{ invalid, passes }">
+    <ValidationObserver ref="observer" v-slot="{ passes }">
       <b-form novalidate @submit.prevent="passes(onSubmit)">
         <ValidationProvider
           name="username"
