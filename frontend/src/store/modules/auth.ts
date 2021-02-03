@@ -32,6 +32,7 @@ const actions: ActionTree<AuthState, RootState> = {
     // TODO Externalize base URI for API
     basePath: 'http://localhost:3000',
     accessToken: state.accessToken,
+    isJsonMime: () => true,
   }),
   logout: ({ commit }, payload: any) => {
     commit('destroy');

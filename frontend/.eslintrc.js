@@ -14,6 +14,7 @@ module.exports = {
     'lines-between-class-members': 'off',
     // To prevent errors in .vue files
     'no-unused-vars': 'off',
+    'object-curly-newline': 'off',
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

@@ -32,7 +32,12 @@
 
       <b-form-group>
         <b-row class="justify-content-center">
-          <b-button class="col-sm-4" type="submit" variant="primary">Submit</b-button>
+          <b-col sm=4>
+            <b-overlay :show="isSubmitting" opacity="0.6"
+                rounded spinner-small spinner-variant="primary">
+              <b-button block type="submit" variant="primary">Submit</b-button>
+            </b-overlay>
+          </b-col>
         </b-row>
       </b-form-group>
     </b-form>
@@ -46,12 +51,13 @@ import { Todo, TodoCategoryEnum } from '@/client-axios';
 @Component({
   name: 'Form',
   components: {},
-  props: ['item'],
+  props: ['item', 'is-submitting'],
 })
 export default class Form extends Vue {
   @Prop() item!: Todo;
+  @Prop() isSubmitting!: boolean;
+
   private onSubmit(): void {
-    const t: Todo = { title: 'hoge', category: TodoCategoryEnum.One };
     this.$emit('submit', this.item);
   }
 }

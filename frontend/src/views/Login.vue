@@ -58,7 +58,7 @@ export default class Login extends Vue {
         username: this.username,
         password: this.password,
       });
-      this.$router.push('/');
+      this.$router.push({ name: 'todo/list' });
     } catch (e) {
       this.errorMessage = 'Invalid username and password.';
     }

@@ -2,17 +2,25 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store';
 import Login from '../views/Login.vue';
-import Index from '../views/Index.vue';
-import Create from '../views/Create.vue';
-import Update from '../views/Update.vue';
+import TodoIndex from '../views/todo/Index.vue';
+import TodoList from '../views/todo/List.vue';
+import TodoCreate from '../views/todo/Create.vue';
+import TodoUpdate from '../views/todo/Update.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  { path: '/', redirect: { name: 'todo/list' } },
   { path: '/login', component: Login, meta: { requiresLogin: false } },
-  { path: '/', component: Index, meta: { requiresLogin: true } },
-  { path: '/create', component: Create, meta: { requiresLogin: true } },
-  { path: '/update/:userId', component: Update, meta: { requiresLogin: true } },
+  {
+    path: '/todo',
+    component: TodoIndex,
+    children: [
+      { name: 'todo/list', path: '', component: TodoList, meta: { requiresLogin: true } },
+      { name: 'todo/create', path: 'create', component: TodoCreate, meta: { requiresLogin: true } },
+      { name: 'todo/update', path: 'update/:userId', component: TodoUpdate, meta: { requiresLogin: true } },
+    ],
+  },
 ];
 
 const router = new VueRouter({
