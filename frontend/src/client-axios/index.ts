@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Todo
  * Todo API specification
@@ -14,3 +15,4 @@
 
 export * from "./api";
 export * from "./configuration";
+
