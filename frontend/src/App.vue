@@ -28,8 +28,8 @@
             <!-- <li class="nav-item">
                    <router-link class="nav-link" to="/">List</router-link>
                  </li> -->
-            <b-nav-item to="/">List</b-nav-item>
-            <b-nav-item to="/create">New Item</b-nav-item>
+            <b-nav-item :to="{ name: 'todo/list' }">List</b-nav-item>
+            <b-nav-item :to="{ name: 'todo/create' }">New Item</b-nav-item>
           </b-nav>
         </b-collapse>
         <!-- <div class="col m-3"> -->

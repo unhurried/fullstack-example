@@ -28,11 +28,13 @@ const actions: ActionTree<AuthState, RootState> = {
     const result = await api.authControllerLogin(payload);
     commit('update', { username: payload.username, accessToken: result.data.accessToken });
   },
-  getApi: async ({ state }) => new TodoApi({
-    // TODO Externalize base URI for API
-    basePath: 'http://localhost:3000',
-    accessToken: state.accessToken,
-  }),
+  getApi: async ({ state }) => new TodoApi(
+    new Configuration({
+      // TODO Externalize base URI for API
+      basePath: 'http://localhost:3000',
+      accessToken: state.accessToken,
+    }),
+  ),
   logout: ({ commit }, payload: any) => {
     commit('destroy');
   },
