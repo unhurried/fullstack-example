@@ -1,6 +1,8 @@
 export class JwtToken {
+  jti: string;
   sub: string;
-  username: string;
-  iat?: number;
-  exp?: number;
+  iat: number;
+  exp: number;
+  scope: string;
+  aud: string;
 }
