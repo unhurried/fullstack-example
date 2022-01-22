@@ -10,7 +10,6 @@ const configuration: Configuration = {
   }],
   scopes: ['openid', 'offline_access', 'todo'],
   features: {
-    introspection: { enabled: true },
     resourceIndicators: {
       enabled: true,
       useGrantedResource: () => { return true }, // allow clients to omit "resource" parameter in Token endpoint.
