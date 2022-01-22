@@ -13,6 +13,7 @@ const configuration: Configuration = {
     introspection: { enabled: true },
     resourceIndicators: {
       enabled: true,
+      useGrantedResource: () => { return true }, // allow clients to omit "resource" parameter in Token endpoint.
       getResourceServerInfo: async (ctx, resourceIndicator, client) => {
         if (client.scope && client.scope.split(' ').includes('todo')) {
           return {
