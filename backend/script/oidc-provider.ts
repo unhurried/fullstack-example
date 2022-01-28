@@ -1,13 +1,23 @@
 import { Provider, Configuration } from 'oidc-provider'
 
 const configuration: Configuration = {
-  clients: [{
-    client_id: 'client_id_for_frontend',
-    client_secret: 'client_secret_for_frontend',
-    scope: 'openid offline_access todo',
-    grant_types: ['authorization_code', 'refresh_token'],
-    redirect_uris: ['http://localhost:3000/api/auth/callback/oidc'],
-  }],
+  clients: [
+    {
+      client_id: 'client_id_for_frontend',
+      client_secret: 'client_secret_for_frontend',
+      scope: 'openid offline_access todo',
+      grant_types: ['authorization_code', 'refresh_token'],
+      redirect_uris: ['http://localhost:3000/api/auth/callback/oidc', 'http://localhost:8080/callback'],
+    },
+    {
+      application_type: 'native',
+      token_endpoint_auth_method: 'none',
+      client_id: 'client_id_for_vue',
+      scope: 'openid offline_access todo',
+      grant_types: ['authorization_code', 'refresh_token'],
+      redirect_uris: ['http://localhost:8080/callback'],
+    },
+  ],
   scopes: ['openid', 'offline_access', 'todo'],
   features: {
     resourceIndicators: {
@@ -25,6 +35,7 @@ const configuration: Configuration = {
       },
     },
   },
+  clientBasedCORS: () => { return true }
 };
 
 const port = process.env.PORT || 3002
