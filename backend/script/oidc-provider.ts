@@ -3,16 +3,17 @@ import { Provider, Configuration } from 'oidc-provider'
 const configuration: Configuration = {
   clients: [
     {
-      client_id: 'client_id_for_frontend',
-      client_secret: 'client_secret_for_frontend',
+      application_type: 'web',
+      client_id: 'client_id_for_web',
+      client_secret: 'client_secret_for_web',
       scope: 'openid offline_access todo',
       grant_types: ['authorization_code', 'refresh_token'],
-      redirect_uris: ['http://localhost:3000/api/auth/callback/oidc', 'http://localhost:8080/callback'],
+      redirect_uris: ['http://localhost:3000/api/auth/callback/oidc'],
     },
     {
       application_type: 'native',
-      token_endpoint_auth_method: 'none',
       client_id: 'client_id_for_vue',
+      token_endpoint_auth_method: 'none',
       scope: 'openid offline_access todo',
       grant_types: ['authorization_code', 'refresh_token'],
       redirect_uris: ['http://localhost:8080/callback'],

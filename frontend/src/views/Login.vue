@@ -28,7 +28,7 @@ export default class Login extends Vue {
         redirect_uri: 'http://localhost:8080/callback',
         scope: 'openid todo',
         response_type: AuthorizationRequest.RESPONSE_TYPE_CODE,
-        extras: { prompt: 'consent', resource: 'http://localhost/resource' },
+        extras: { prompt: 'consent', resource: 'http://localhost:3001/todos' },
       });
       const authorizationHandler = new RedirectRequestHandler(
         new LocalStorageBackend(),
