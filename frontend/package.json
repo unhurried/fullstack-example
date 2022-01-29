@@ -1,6 +1,6 @@
 {
   "name": "fullstack-example-frontend",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,15 +9,16 @@
     "generate-client": "openapi-generator-cli generate -g typescript-axios -i ../backend/dist/open-api.json -o ./src/client-axios"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.34",
-    "@fortawesome/free-solid-svg-icons": "^5.15.2",
-    "@fortawesome/vue-fontawesome": "^2.0.2",
-    "axios": "^0.21.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
+    "@openid/appauth": "^1.3.1",
     "bootstrap": "^4.6.0",
+    "axios": "^0.25.0",
     "bootstrap-vue": "^2.21.2",
-    "core-js": "^3.8.3",
-    "vee-validate": "^3.4.5",
-    "vue": "^2.6.12",
+    "core-js": "^3.20.3",
+    "vee-validate": "^3.4.14",
+    "vue": "^2.6.14",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.5.1",
@@ -25,22 +26,22 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.1.19",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
-    "@vue/cli-plugin-babel": "^4.5.11",
-    "@vue/cli-plugin-eslint": "^4.5.11",
-    "@vue/cli-plugin-router": "^4.5.11",
-    "@vue/cli-plugin-typescript": "^4.5.11",
-    "@vue/cli-plugin-vuex": "^4.5.11",
-    "@vue/cli-service": "^4.5.11",
+    "@openapitools/openapi-generator-cli": "^2.4.25",
+    "@vue/cli-plugin-babel": "^4.5.15",
+    "@vue/cli-plugin-eslint": "^4.5.15",
+    "@vue/cli-plugin-router": "^4.5.15",
+    "@vue/cli-plugin-typescript": "^4.5.15",
+    "@vue/cli-plugin-vuex": "^4.5.15",
+    "@vue/cli-service": "^4.5.15",
     "@vue/eslint-config-airbnb": "^5.3.0",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "^7.18.0",
+    "eslint": "^6.8.0",
     "eslint-plugin-vue": "^7.5.0",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "typescript": "~4.1.3",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.14"
   }
 }

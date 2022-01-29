@@ -4,63 +4,41 @@
       <h2>Login</h2>
     </div>
 
+    <b-button class="col-sm-4" type="button" variant="primary" @click="login()">
+      Login with OpenID Connect
+    </b-button>
     <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}</b-alert>
-
-    <ValidationObserver ref="observer" v-slot="{ passes }">
-      <b-form novalidate @submit.prevent="passes(onSubmit)">
-        <ValidationProvider
-          name="username"
-          rules="required|min:8|max:32"
-          v-slot="{ errors, valid, validated }"
-        >
-          <b-form-group label-cols-sm="3" label="Username" label-for="username">
-            <b-form-input v-model="username" type="text" :state="validated ? valid : null" />
-            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
-          </b-form-group>
-        </ValidationProvider>
-
-        <ValidationProvider
-          name="password"
-          rules="required|min:8|max:32"
-          v-slot="{ errors, valid, validated }"
-        >
-          <b-form-group label-cols-sm="3" label="Password" label-for="password">
-            <b-form-input v-model="password" type="password" :state="validated ? valid : null" />
-            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
-          </b-form-group>
-        </ValidationProvider>
-
-        <b-form-group>
-          <b-row class="justify-content-center">
-            <b-button class="col-sm-4" type="submit" variant="primary">Login</b-button>
-          </b-row>
-        </b-form-group>
-      </b-form>
-    </ValidationObserver>
-  </div>
+ </div>
 </template>
 
 <script lang="ts">
+import { AuthorizationServiceConfiguration, FetchRequestor, AuthorizationRequest, RedirectRequestHandler, LocalStorageBackend, DefaultCrypto, BasicQueryStringUtils, LocationLike, StringMap } from '@openid/appauth';
 import { Component, Vue } from 'vue-property-decorator';
+import NoHashQueryStringUtils from '../login/no-hash-query';
 
-@Component({
-  name: 'Login',
-  components: {},
-})
+@Component({ name: 'Login' })
 export default class Login extends Vue {
   private errorMessage: string | null = null;
-  private username: string = '';
-  private password: string = '';
 
-  private async onSubmit() {
+  private async login() {
     try {
-      await this.$store.dispatch('auth/login', {
-        username: this.username,
-        password: this.password,
+      const config = await AuthorizationServiceConfiguration.fetchFromIssuer('http://localhost:3002', new FetchRequestor());
+      const authRequest = new AuthorizationRequest({
+        client_id: 'client_id_for_vue',
+        redirect_uri: 'http://localhost:8080/callback',
+        scope: 'openid todo',
+        response_type: AuthorizationRequest.RESPONSE_TYPE_CODE,
+        extras: { prompt: 'consent', resource: 'http://localhost:3001/todos' },
       });
-      this.$router.push({ name: 'todo/list' });
+      const authorizationHandler = new RedirectRequestHandler(
+        new LocalStorageBackend(),
+        new NoHashQueryStringUtils(),
+        window.location,
+        new DefaultCrypto(),
+      );
+      authorizationHandler.performAuthorizationRequest(config, authRequest);
     } catch (e) {
-      this.errorMessage = 'Invalid username and password.';
+      this.errorMessage = 'Something wrong happend with the login process.';
     }
   }
 }

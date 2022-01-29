@@ -1,11 +1,10 @@
 import {
   ActionTree, GetterTree, Module, MutationTree,
 } from 'vuex';
-import { Configuration, AuthApi, TodoApi } from '@/client-axios';
+import { Configuration, TodoApi } from '@/client-axios';
 import { AuthState, RootState } from '../type';
 
 const getters: GetterTree<AuthState, RootState> = {
-  // isLogin: (state) => state.accessToken !== '',
   isLogin: (state) => state.accessToken !== '',
 };
 
@@ -20,18 +19,10 @@ const mutations: MutationTree<AuthState> = {
 };
 
 const actions: ActionTree<AuthState, RootState> = {
-  login: async ({ commit }, payload: any) => {
-    const api = new AuthApi(
-      // TODO Externalize basePath for Login API
-      new Configuration({ basePath: 'http://localhost:3000' }),
-    );
-    const result = await api.authControllerLogin(payload);
-    commit('update', { username: payload.username, accessToken: result.data.accessToken });
-  },
   getApi: async ({ state }) => new TodoApi(
+    // TODO Externalize base URI for API
     new Configuration({
-      // TODO Externalize base URI for API
-      basePath: 'http://localhost:3000',
+      basePath: 'http://localhost:3001',
       accessToken: state.accessToken,
     }),
   ),
