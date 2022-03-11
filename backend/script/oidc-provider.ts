@@ -9,10 +9,11 @@ const configuration: Configuration = {
       scope: 'openid offline_access todo',
       grant_types: ['authorization_code', 'refresh_token'],
       redirect_uris: ['http://localhost:3000/api/auth/callback/oidc'],
+      post_logout_redirect_uris: ['http://localhost:3000'],
     },
     {
       application_type: 'native',
-      client_id: 'client_id_for_vue',
+      client_id: 'client_id_for_native',
       token_endpoint_auth_method: 'none',
       scope: 'openid offline_access todo',
       grant_types: ['authorization_code', 'refresh_token'],
@@ -36,7 +37,8 @@ const configuration: Configuration = {
       },
     },
   },
-  clientBasedCORS: () => { return true }
+  clientBasedCORS: () => { return true },
+  ttl: { AccessToken: 40 }
 };
 
 const port = process.env.PORT || 3002

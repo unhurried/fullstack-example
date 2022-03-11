@@ -2,6 +2,8 @@
 
 A simple Nest.js project that serves REST APIs for TODO web app.
 
+<img src="./resources/screenshot.png" width=500 style="border: 1px solid">
+
 ## Covered Features
 
 * Generating Open API document (@nestjs/swagger)
@@ -20,6 +22,9 @@ $ npm install
 ### Run the application
 
 ```shell
+# start OpenID provider for development
+$ npm run oidc-provider
+
 # development mode
 $ npm run start
 
