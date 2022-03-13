@@ -22,7 +22,7 @@ export default class Callback extends Vue {
       const config = await AuthorizationServiceConfiguration.fetchFromIssuer('http://localhost:3002', new FetchRequestor());
       const tokenHandler = new BaseTokenRequestHandler(new FetchRequestor());
       const req = new TokenRequest({
-        client_id: 'client_id_for_vue',
+        client_id: 'client_id_for_native',
         redirect_uri: 'http://localhost:8080/callback',
         grant_type: GRANT_TYPE_AUTHORIZATION_CODE,
         code: response?.code,

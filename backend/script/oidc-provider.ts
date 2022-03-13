@@ -38,7 +38,7 @@ const configuration: Configuration = {
     },
   },
   clientBasedCORS: () => { return true },
-  ttl: { AccessToken: 40 }
+  ttl: { AccessToken: 3600 }
 };
 
 const port = process.env.PORT || 3002

@@ -24,7 +24,7 @@ export default class Login extends Vue {
     try {
       const config = await AuthorizationServiceConfiguration.fetchFromIssuer('http://localhost:3002', new FetchRequestor());
       const authRequest = new AuthorizationRequest({
-        client_id: 'client_id_for_vue',
+        client_id: 'client_id_for_native',
         redirect_uri: 'http://localhost:8080/callback',
         scope: 'openid todo',
         response_type: AuthorizationRequest.RESPONSE_TYPE_CODE,
