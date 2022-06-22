@@ -1,6 +1,12 @@
 import { Provider, Configuration } from 'oidc-provider'
 
 const configuration: Configuration = {
+  formats: { customizers: {
+    jwt: async (ctx, token, parts) => { 
+      parts.header = { typ: "JWT" }
+      return parts
+    }
+  }},
   clients: [
     {
       application_type: 'web',
@@ -31,7 +37,7 @@ const configuration: Configuration = {
             scope: 'todo',
             audience: 'todo-api',
             accessTokenFormat: 'jwt',
-            jwt: { sign: { alg: 'RS256' } },
+            jwt: { sign: { alg: 'RS256' }, },
           }
         }
       },
