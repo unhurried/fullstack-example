@@ -14,6 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             ignoreExpiration: false, // Verify exp claim
             issuer: 'http://localhost:3002', // Verify iss claim
             audience: 'todo-api', // Verify aud claim
+            // secretOrKey: 'secret', // Replace secretOrKeyProvider with this line to specify a opaque secret.
             secretOrKeyProvider: jwksRsa.passportJwtSecret({
                 cache: true,
                 rateLimit: true,
