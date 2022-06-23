@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ObjectID } from 'mongodb';
 import { TodoEntity } from '../entity/todo.entity';
 import { Todo } from '../resource/todo';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TodoService {
@@ -13,24 +13,24 @@ export class TodoService {
   ) {}
 
   async findAll(userId: string): Promise<Todo[]> {
-    const entities = await this.todoRepository.find({userId});
+    const entities = await this.todoRepository.find({where: {userId}});
     return entities.map<Todo>(this.entityToDto);
   }
 
   async create(userId: string, dto: Todo): Promise<Todo> {
     let entity = this.dtoToEntity(userId, dto);
-    entity.id = null;
+    entity.id = randomUUID();
     entity = await this.todoRepository.save(entity);
     return this.entityToDto(entity);
   }
 
   async findById(userId: string, id: string): Promise<Todo> {
-    const entity = await this.todoRepository.findOne({ where: { _id: new ObjectID(id), userId } });
+    const entity = await this.todoRepository.findOne({ where: { id, userId } });
     return entity? this.entityToDto(entity) : null
   }
 
   async update(userId: string, dto: Todo): Promise<Todo> {
-    const originalEntity = await this.todoRepository.findOne({ where: { _id: new ObjectID(dto.id), userId } });
+    const originalEntity = await this.todoRepository.findOne({ where: { id: dto.id, userId } });
     if (originalEntity) {
       let entity = this.dtoToEntity(userId, dto);
       entity = await this.todoRepository.save(entity);
@@ -41,7 +41,7 @@ export class TodoService {
   }
 
   async delete(userId: string, id: string): Promise<boolean> {
-    const entity = await this.todoRepository.findOne({ where: { _id: new ObjectID(id), userId } });
+    const entity = await this.todoRepository.findOne({ where: { id, userId } });
     if (entity) {
       this.todoRepository.remove(entity);
       return true;
@@ -52,7 +52,7 @@ export class TodoService {
 
   private entityToDto(entity: TodoEntity): Todo {
     return {
-      id: entity.id.toString(),
+      id: entity.id,
       title: entity.title,
       category: entity.category,
       content: entity.content,
@@ -67,7 +67,7 @@ export class TodoService {
       content: dto.content,
     };
     if (dto.id) {
-      entity.id = ObjectID.createFromHexString(dto.id);
+      entity.id = dto.id;
     }
 
     return entity;
