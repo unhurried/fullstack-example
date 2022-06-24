@@ -1,6 +1,6 @@
 {
   "name": "fullstack-example-backend",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "license": "MIT",
   "scripts": {
     "oidc-provider": "ts-node script/oidc-provider",
