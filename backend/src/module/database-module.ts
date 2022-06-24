@@ -7,7 +7,7 @@ import { TodoEntity } from '../entity/todo.entity';
 export class DatabaseModule {
   static async forRoot(entities = [], options?): Promise<DynamicModule> {
     // Create in-memory mongodb server when DB_URL is not specified.
-    const url = process.env.DB_URL? process.env.DB_URL : await new MongoMemoryServer().getUri();
+    const url = process.env.DB_URL? process.env.DB_URL : (await MongoMemoryServer.create()).getUri();
 
     return TypeOrmModule.forRoot({
       type: 'mongodb',

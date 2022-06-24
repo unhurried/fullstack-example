@@ -1,10 +1,13 @@
-import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, PrimaryColumn } from 'typeorm';
 import { Category } from '../resource/todo';
 
 @Entity()
 export class TodoEntity {
   @ObjectIdColumn()
-  id?: ObjectID;
+  _id?: string;
+
+  @PrimaryColumn()
+  id?: string;
 
   @Column()
   userId: string;
